@@ -17,8 +17,8 @@ include_directories(include)
 include_directories(${SFML_INCLUDE_DIR})
 
 # Set some variables
-set(SOURCE_FILES src/main.cpp src/Game.cpp src/Gui.cpp)
-set(HEADER_FILES include/Game.hpp include/Gui.hpp)
+set(SOURCE_FILES src/main.cpp src/Game.cpp src/Gui.cpp src/Entity.cpp)
+set(HEADER_FILES include/Game.hpp include/Gui.hpp include/Entity.hpp)
 set(EXECUTABLE_NAME ethereal-star)
 
 # Add the executable
