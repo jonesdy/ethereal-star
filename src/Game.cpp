@@ -16,6 +16,7 @@ bool Game::isInitialized() const
 
 void Game::run()
 {
+   gui.addEntity(std::shared_ptr<Entity>(new Entity(128, 128, 32, 32)), "../resources/Sprites.png", 0, 0);
    while(gui.isWindowOpen())
    {
       gui.draw();

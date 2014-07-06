@@ -7,16 +7,14 @@ class Entity
 {
 public:
    Entity();
-   Entity(std::string file, int xPos, int yPos, int w, int h);
+   Entity(int xPos, int yPos, int w, int h);
    ~Entity();
-   void create(std::string file, int xPos, int yPos, int w, int h);
-   std::string getFileName() const;
+   void create(int xPos, int yPos, int w, int h);
    int getX() const;
    int getY() const;
    int getWidth() const;
    int getHeight() const;
 private:
-   std::string fileName;
    int x;
    int y;
    int width;

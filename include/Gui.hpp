@@ -2,6 +2,10 @@
 #define GUI_HPP
 
 #include <SFML/Graphics.hpp>
+#include <vector>
+#include <string>
+#include "Entity.hpp"
+#include "TextureManager.hpp"
 
 class Gui
 {
@@ -14,9 +18,13 @@ public:
    bool isInitialized() const;
    bool isWindowOpen() const;
    void draw();
+   void addEntity(std::shared_ptr<Entity> ent, std::string fileName, int imageX, int imageY);
 private:
    sf::RenderWindow window;
    bool initialized;
+   TextureManager textureManager;
+   std::vector<sf::Sprite> sprites;
+   std::vector<std::shared_ptr<Entity> > entities;
 };
 
 #endif

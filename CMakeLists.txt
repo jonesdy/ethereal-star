@@ -7,6 +7,9 @@ cmake_minimum_required(VERSION 2.8)
 # Add the modules
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
+# Using C++11
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
 # Find SFML
 # If SFML can't be found, need to add the SFML_ROOT environment variable
 find_package(SFML REQUIRED COMPONENTS graphics window system network)
@@ -17,8 +20,8 @@ include_directories(include)
 include_directories(${SFML_INCLUDE_DIR})
 
 # Set some variables
-set(SOURCE_FILES src/main.cpp src/Game.cpp src/Gui.cpp src/Entity.cpp)
-set(HEADER_FILES include/Game.hpp include/Gui.hpp include/Entity.hpp)
+set(SOURCE_FILES src/main.cpp src/Game.cpp src/Gui.cpp src/Entity.cpp src/TextureManager.cpp)
+set(HEADER_FILES include/Game.hpp include/Gui.hpp include/Entity.hpp include/TextureManager.hpp)
 set(EXECUTABLE_NAME ethereal-star)
 
 # Add the executable
