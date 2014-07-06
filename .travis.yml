@@ -4,13 +4,15 @@ compiler:
   - gcc
 
 before_script:
-  - echo 'yes' | sudo apt-add-repository ppa:sonkun/sfml-development
-  - sudo apt-get update -qq
+  - sudo apt-add-repository ppa:sonkun/sfml-development -y
   - sudo apt-get install -y libsfml-dev
+  - sudo apt-add-repository ppa:ubuntu-toolchain-r/test -y
+  - sudo apt-get update -qq
+  - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
   - mkdir bin
   - cd bin
   - cmake ..
-
 
 script:
   - make
