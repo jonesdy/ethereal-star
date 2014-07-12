@@ -40,18 +40,26 @@ void Gui::draw()
       window.clear();
 
       // Do drawing here
-      for(unsigned int i = 0; i < sprites.size(); i++)
+      for(unsigned int i = 0; i < entities.size(); i++)
       {
-         window.draw(sprites[i]);
+         // Get the current sprite info
+         SpriteInfo si = entities[i]->getCurrentSpriteInfo();
+
+         // See if we have set it up already
+         if(sprites.count(si) != 1)
+         {
+            // We don't, create the sprite first
+            sprites[si] = sf::Sprite(*textureManager.getTexture(si.getFileName(),
+               si.getImageX(), si.getImageY(), si.getImageWidth(), si.getImageHeight()));
+         }
+         window.draw(sprites[si]);
       }
 
       window.display();
    }
 }
 
-void Gui::addEntity(std::shared_ptr<Entity> ent, std::string fileName, int imageX, int imageY)
+void Gui::addEntity(std::shared_ptr<Entity> ent)
 {
    entities.push_back(ent);
-   sprites.push_back(sf::Sprite(*textureManager.getTexture(fileName, imageX, imageY,
-      ent->getWidth(), ent->getHeight())));
 }

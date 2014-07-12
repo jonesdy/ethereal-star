@@ -2,10 +2,7 @@
 
 Entity::Entity()
 {
-   x = 0;
-   y = 0;
-   width = 0;
-   height = 0;
+   create(0, 0, 0, 0);
 }
 
 Entity::Entity(int xPos, int yPos, int w, int h)
@@ -23,6 +20,9 @@ void Entity::create(int xPos, int yPos, int w, int h)
    y = yPos;
    width = w;
    height = h;
+   frame = 0;
+   maxFrame = 0;
+   direction = Direction::UP;
 }
 
 int Entity::getX() const
@@ -43,4 +43,52 @@ int Entity::getWidth() const
 int Entity::getHeight() const
 {
    return height;
+}
+
+void Entity::addSpriteInfo(SpriteInfo si, int fr, Direction dir)
+{
+   spriteInfos[std::pair<int, Direction>(fr, dir)] = si;
+   if(fr > maxFrame)
+   {
+      maxFrame = fr;
+   }
+}
+
+SpriteInfo Entity::getCurrentSpriteInfo()
+{
+   return spriteInfos[std::pair<int, Direction>(frame, direction)];
+}
+
+void Entity::move(int dx, int dy)
+{
+   x += dx;
+   y += dy;
+
+   // Determine which frame to use
+   if(frame < maxFrame)
+   {
+      frame++;
+   }
+   else
+   {
+      frame = 0;
+   }
+
+   // Determine which direction to use
+   if(dx > 0)
+   {
+      direction = Direction::RIGHT;
+   }
+   else if(dx < 0)
+   {
+      direction = Direction::LEFT;
+   }
+   else if(dy > 0)
+   {
+      direction = Direction::DOWN;
+   }
+   else if(dy < 0)
+   {
+      direction = Direction::UP;
+   }
 }

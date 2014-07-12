@@ -18,12 +18,12 @@ public:
    bool isInitialized() const;
    bool isWindowOpen() const;
    void draw();
-   void addEntity(std::shared_ptr<Entity> ent, std::string fileName, int imageX, int imageY);
+   void addEntity(std::shared_ptr<Entity> ent);
 private:
    sf::RenderWindow window;
    bool initialized;
    TextureManager textureManager;
-   std::vector<sf::Sprite> sprites;
+   std::map<SpriteInfo, sf::Sprite> sprites;
    std::vector<std::shared_ptr<Entity> > entities;
 };
 
