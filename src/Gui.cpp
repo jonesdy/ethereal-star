@@ -52,6 +52,7 @@ void Gui::draw()
             sprites[si] = sf::Sprite(*textureManager.getTexture(si.getFileName(),
                si.getImageX(), si.getImageY(), si.getImageWidth(), si.getImageHeight()));
          }
+         sprites[si].setPosition(entities[i]->getX(), entities[i]->getY());
          window.draw(sprites[si]);
       }
 
