@@ -29,6 +29,7 @@ private:
    int frame;
    int maxFrame;
    Direction direction;
+   Direction prevDirection;
    std::map<std::pair<int, Direction>, SpriteInfo> spriteInfos;   // Frame, direction
 };
 

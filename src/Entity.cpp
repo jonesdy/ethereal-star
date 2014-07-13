@@ -23,6 +23,7 @@ void Entity::create(int xPos, int yPos, int w, int h)
    frame = 0;
    maxFrame = 0;
    direction = Direction::UP;
+   prevDirection = direction;
 }
 
 int Entity::getX() const
@@ -90,5 +91,11 @@ void Entity::move(int dx, int dy)
    else if(dy < 0)
    {
       direction = Direction::UP;
+   }
+
+   if(prevDirection != direction)
+   {
+      prevDirection = direction;
+      frame = 0;
    }
 }
