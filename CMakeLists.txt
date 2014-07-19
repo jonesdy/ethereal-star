@@ -20,8 +20,8 @@ include_directories(include)
 include_directories(${SFML_INCLUDE_DIR})
 
 # Set some variables
-set(SOURCE_FILES src/main.cpp src/Game.cpp src/Gui.cpp src/Entity.cpp src/TextureManager.cpp src/SpriteInfo.cpp)
-set(HEADER_FILES include/Game.hpp include/Gui.hpp include/Entity.hpp include/TextureManager.hpp include/SpriteInfo.hpp)
+set(SOURCE_FILES src/main.cpp src/Game.cpp src/Gui.cpp src/Entity.cpp src/TextureManager.cpp src/SpriteInfo.cpp src/Tile.cpp src/Map.cpp)
+set(HEADER_FILES include/Game.hpp include/Gui.hpp include/Entity.hpp include/TextureManager.hpp include/SpriteInfo.hpp include/Tile.hpp include/Map.hpp)
 set(EXECUTABLE_NAME ethereal-star)
 
 # Add the executable

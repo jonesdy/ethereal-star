@@ -16,7 +16,7 @@ bool Game::isInitialized() const
 
 void Game::run()
 {
-   std::shared_ptr<Entity> ent(new Entity(128, 128, 32, 32));
+   std::shared_ptr<Entity> ent(new Entity(128, 128));
    ent->addSpriteInfo(SpriteInfo("../resources/Sprites.png", 0, 0, 32, 32),
       0, Entity::Direction::UP);
    ent->addSpriteInfo(SpriteInfo("../resources/Sprites.png", 32, 0, 32, 32),

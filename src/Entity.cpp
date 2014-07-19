@@ -2,24 +2,22 @@
 
 Entity::Entity()
 {
-   create(0, 0, 0, 0);
+   create(0, 0);
 }
 
-Entity::Entity(int xPos, int yPos, int w, int h)
+Entity::Entity(int xPos, int yPos)
 {
-   create(xPos, yPos, w, h);
+   create(xPos, yPos);
 }
 
 Entity::~Entity()
 {
 }
 
-void Entity::create(int xPos, int yPos, int w, int h)
+void Entity::create(int xPos, int yPos)
 {
    x = xPos;
    y = yPos;
-   width = w;
-   height = h;
    frame = 0;
    maxFrame = 0;
    direction = Direction::UP;
@@ -36,14 +34,14 @@ int Entity::getY() const
    return y;
 }
 
-int Entity::getWidth() const
+int Entity::getWidth()
 {
-   return width;
+   return getCurrentSpriteInfo().getImageWidth();
 }
 
-int Entity::getHeight() const
+int Entity::getHeight()
 {
-   return height;
+   return getCurrentSpriteInfo().getImageHeight();
 }
 
 void Entity::addSpriteInfo(SpriteInfo si, int fr, Direction dir)

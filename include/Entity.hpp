@@ -11,13 +11,13 @@ class Entity
 public:
    enum Direction {UP, DOWN, LEFT, RIGHT};
    Entity();
-   Entity(int xPos, int yPos, int w, int h);
+   Entity(int xPos, int yPos);
    ~Entity();
-   void create(int xPos, int yPos, int w, int h);
+   void create(int xPos, int yPos);
    int getX() const;
    int getY() const;
-   int getWidth() const;
-   int getHeight() const;
+   int getWidth();
+   int getHeight();
    void addSpriteInfo(SpriteInfo si, int frame, Direction dir);
    SpriteInfo getCurrentSpriteInfo();
    void move(int dx, int dy);
