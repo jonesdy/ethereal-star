@@ -6,20 +6,22 @@ SpriteInfo::SpriteInfo()
    create("", 0, 0, 0, 0);
 }
 
-SpriteInfo::SpriteInfo(std::string file, int x, int y, int width, int height)
+SpriteInfo::SpriteInfo(std::string file, int ix, int iy, int width, int height)
 {
-   create(file, x, y, width, height);
+   create(file, ix, iy, width, height);
 }
 
 SpriteInfo::~SpriteInfo()
 {
 }
 
-void SpriteInfo::create(std::string file, int x, int y, int width, int height)
+void SpriteInfo::create(std::string file, int ix, int iy, int width, int height)
 {
    fileName = file;
-   imageX = x;
-   imageY = y;
+   x = 0;
+   y = 0;
+   imageX = ix;
+   imageY = iy;
    imageWidth = width;
    imageHeight = height;
 }
@@ -27,6 +29,16 @@ void SpriteInfo::create(std::string file, int x, int y, int width, int height)
 std::string SpriteInfo::getFileName() const
 {
    return fileName;
+}
+
+void SpriteInfo::setX(int xPos)
+{
+   x = xPos;
+}
+
+void SpriteInfo::setY(int yPos)
+{
+   y = yPos;
 }
 
 int SpriteInfo::getImageX() const

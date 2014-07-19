@@ -55,7 +55,10 @@ void Entity::addSpriteInfo(SpriteInfo si, int fr, Direction dir)
 
 SpriteInfo Entity::getCurrentSpriteInfo()
 {
-   return spriteInfos[std::pair<int, Direction>(frame, direction)];
+   SpriteInfo si = spriteInfos[std::pair<int, Direction>(frame, direction)];
+   si.setX(x);
+   si.setY(y);
+   return si;
 }
 
 void Entity::move(int dx, int dy)
