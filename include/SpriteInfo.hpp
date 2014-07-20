@@ -7,9 +7,9 @@ class SpriteInfo
 {
 public:
    SpriteInfo();
-   SpriteInfo(std::string file,int ix, int iy, int width, int height);
+   SpriteInfo(std::string file, int ix, int iy, int width, int height);
    ~SpriteInfo();
-   void create(std::string file,int ix, int iy, int width, int height);
+   void create(std::string file, int ix, int iy, int width, int height);
    std::string getFileName() const;
    void setX(int xPos);
    void setY(int yPos);

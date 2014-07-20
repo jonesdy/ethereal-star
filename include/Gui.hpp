@@ -21,14 +21,16 @@ public:
    bool isWindowOpen() const;
    void draw();
    void addEntity(std::shared_ptr<Entity> ent);
+   void removeEntity(std::shared_ptr<Entity> ent);
+   void addSpriteInfo(std::shared_ptr<SpriteInfo> si);
+   void removeSpriteInfo(std::shared_ptr<SpriteInfo> si);
 private:
    sf::RenderWindow window;
    bool initialized;
    TextureManager textureManager;
    std::map<SpriteInfo, sf::Sprite> sprites;
-   std::vector<std::shared_ptr<Entity> > entities;
-   clock_t start;
-   clock_t end;
+   std::vector<std::shared_ptr<Entity> > entities;          // Entities can change sprites
+   std::vector<std::shared_ptr<SpriteInfo> > spriteInfos;
 };
 
 #endif

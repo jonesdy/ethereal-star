@@ -9,8 +9,6 @@ Gui::Gui()
    initialized = true;
    window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE);
    srand(time(NULL));
-   start = clock();
-   end = clock();
 }
 
 Gui::~Gui()
@@ -29,7 +27,7 @@ bool Gui::isWindowOpen() const
 
 void Gui::draw()
 {
-   while(window.isOpen())
+   if(isWindowOpen())
    {
       sf::Event evt;
       while(window.pollEvent(evt))
@@ -43,6 +41,27 @@ void Gui::draw()
       window.clear();
 
       // Do drawing here
+      for(unsigned int i = 0; i < spriteInfos.size(); i++)
+      {
+         // Get the sprite info
+         SpriteInfo si = *spriteInfos[i];
+
+         // See if we have a sprite for this already
+         if(sprites.count(si) != 1)
+         {
+            // We don't so create the sprite first
+            sprites[si] = sf::Sprite(*textureManager.getTexture(si.getFileName(),
+               si.getImageX(), si.getImageY(), si.getImageWidth(), si.getImageHeight()));
+         }
+
+         // Don't draw if it's off the screen
+         if((si.getX() > 0) && (si.getX() - si.getImageWidth() < WINDOW_WIDTH) &&
+            (si.getY() > 0) && (si.getY() - si.getImageHeight() < WINDOW_HEIGHT))
+         {
+            window.draw(sprites[si]);
+         }
+      }
+
       for(unsigned int i = 0; i < entities.size(); i++)
       {
          // Get the current sprite info
@@ -57,49 +76,36 @@ void Gui::draw()
          }
          
          // Don't bother drawing if the sprite is off the screen
-         if((entities[i]->getX() > 0) &&
-            (entities[i]->getX() - entities[i]->getWidth() < WINDOW_WIDTH) && 
-            (entities[i]->getY() > 0) &&
-            (entities[i]->getY() - entities[i]->getHeight() < WINDOW_HEIGHT))
+         if((si.getX() > 0) && (si.getX() - si.getImageWidth() < WINDOW_WIDTH) &&
+            (si.getY() > 0) && (si.getY() - si.getImageHeight() < WINDOW_HEIGHT))
          {
-            sprites[si].setPosition(entities[i]->getX(), entities[i]->getY());
+            sprites[si].setPosition(si.getX(), si.getY());
             window.draw(sprites[si]);
-         }
-
-         // Some test logic
-         clock_t delta = end - start;
-         if((((float)delta) / CLOCKS_PER_SEC) >= 0.1)
-         {
-            start = clock();
-            int action = rand() % 5;
-            if(action != 4)
-            {
-               Entity::Direction dir = (Entity::Direction)action;
-               switch(dir)
-               {
-                  case Entity::Direction::UP:
-                     entities[i]->move(0, -4);
-                     break;
-                  case Entity::Direction::DOWN:
-                     entities[i]->move(0, 4);
-                     break;
-                  case Entity::Direction::LEFT:
-                     entities[i]->move(-4, 0);
-                     break;
-                  case Entity::Direction::RIGHT:
-                     entities[i]->move(4, 0);
-                     break;
-               }
-            }
          }
       }
 
       window.display();
-      end = clock();
    }
 }
 
 void Gui::addEntity(std::shared_ptr<Entity> ent)
 {
    entities.push_back(ent);
+}
+
+void Gui::removeEntity(std::shared_ptr<Entity> ent)
+{
+   // TODO: Actually test this
+   entities.erase(std::remove(entities.begin(), entities.end(), ent), entities.end());
+}
+
+void Gui::addSpriteInfo(std::shared_ptr<SpriteInfo> si)
+{
+   spriteInfos.push_back(si);
+}
+
+void Gui::removeSpriteInfo(std::shared_ptr<SpriteInfo> si)
+{
+   // TODO: Actually test this
+   spriteInfos.erase(std::remove(spriteInfos.begin(), spriteInfos.end(), si), spriteInfos.end());
 }

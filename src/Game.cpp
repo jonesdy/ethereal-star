@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include <ctime>
 
 Game::Game()
 {
@@ -46,8 +47,40 @@ void Game::run()
       2, Entity::Direction::RIGHT);
 
    gui.addEntity(ent);
+   clock_t start = clock();
+   clock_t end = start;
+   clock_t delta = end - start;
    while(gui.isWindowOpen())
    {
+      // Some test logic
+      delta = end - start;
+      if((((float)delta) / CLOCKS_PER_SEC) >= 0.1)
+      {
+         start = clock();
+         int action = rand() % 5;
+         if(action != 4)
+         {
+            Entity::Direction dir = (Entity::Direction)action;
+            switch(dir)
+            {
+               case Entity::Direction::UP:
+                  ent->move(0, -4);
+                  break;
+               case Entity::Direction::DOWN:
+                  ent->move(0, 4);
+                  break;
+               case Entity::Direction::LEFT:
+                  ent->move(-4, 0);
+                  break;
+               case Entity::Direction::RIGHT:
+                  ent->move(4, 0);
+                  break;
+            }
+         }
+      }
+
       gui.draw();
+
+      end = clock();
    }
 }

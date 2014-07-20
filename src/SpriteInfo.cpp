@@ -41,6 +41,16 @@ void SpriteInfo::setY(int yPos)
    y = yPos;
 }
 
+int SpriteInfo::getX() const
+{
+   return x;
+}
+
+int SpriteInfo::getY() const
+{
+   return y;
+}
+
 int SpriteInfo::getImageX() const
 {
    return imageX;
