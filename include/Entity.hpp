@@ -4,9 +4,9 @@
 #include <string>
 #include <map>
 #include <utility>
-#include "SpriteInfo.hpp"
+#include <SFML/Graphics.hpp>
 
-class Entity
+class Entity : public sf::Drawable
 {
 public:
    enum Direction {UP, DOWN, LEFT, RIGHT};
@@ -16,21 +16,19 @@ public:
    void create(int xPos, int yPos);
    int getX() const;
    int getY() const;
-   int getWidth();
-   int getHeight();
-   void addSpriteInfo(SpriteInfo si, int frame, Direction dir);
-   SpriteInfo getCurrentSpriteInfo();
+   int getWidth() const;
+   int getHeight() const;
    void move(int dx, int dy);
+   void addSprite(sf::Sprite sprite, int f, Direction dir);
 private:
+   virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
    int x;
    int y;
-   int width;
-   int height;
    int frame;
    int maxFrame;
    Direction direction;
    Direction prevDirection;
-   std::map<std::pair<int, Direction>, SpriteInfo> spriteInfos;   // Frame, direction
+   std::map<std::pair<int, Direction>, sf::Sprite> sprites;    // Frame, direction
 };
 
 #endif

@@ -4,26 +4,21 @@ Tile::Tile()
 {
 }
 
-Tile::Tile(int xPos, int yPos, SpriteInfo si, Property p)
+Tile::Tile(int xPos, int yPos, sf::Sprite sp, Property p)
 {
-   create(xPos, yPos, si, p);
+   create(xPos, yPos, sp, p);
 }
 
 Tile::~Tile()
 {
 }
 
-void Tile::create(int xPos, int yPos, SpriteInfo si, Property p)
+void Tile::create(int xPos, int yPos, sf::Sprite sp, Property p)
 {
    x = xPos;
    y = yPos;
-   spriteInfo = si;
+   sprite = sp;
    property = p;
-}
-
-SpriteInfo Tile::getSpriteInfo() const
-{
-   return spriteInfo;
 }
 
 int Tile::getX() const
@@ -39,4 +34,9 @@ int Tile::getY() const
 Tile::Property Tile::getProperty() const
 {
    return property;
+}
+
+void Tile::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
+   target.draw(sprite, states);
 }

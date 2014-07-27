@@ -34,31 +34,14 @@ int Entity::getY() const
    return y;
 }
 
-int Entity::getWidth()
+int Entity::getWidth() const
 {
-   return getCurrentSpriteInfo().getImageWidth();
+   return sprites.at(std::pair<int, Direction>(frame, direction)).getLocalBounds().width;
 }
 
-int Entity::getHeight()
+int Entity::getHeight() const
 {
-   return getCurrentSpriteInfo().getImageHeight();
-}
-
-void Entity::addSpriteInfo(SpriteInfo si, int fr, Direction dir)
-{
-   spriteInfos[std::pair<int, Direction>(fr, dir)] = si;
-   if(fr > maxFrame)
-   {
-      maxFrame = fr;
-   }
-}
-
-SpriteInfo Entity::getCurrentSpriteInfo()
-{
-   SpriteInfo si = spriteInfos[std::pair<int, Direction>(frame, direction)];
-   si.setX(x);
-   si.setY(y);
-   return si;
+   return sprites.at(std::pair<int, Direction>(frame, direction)).getLocalBounds().height;
 }
 
 void Entity::move(int dx, int dy)
@@ -99,4 +82,20 @@ void Entity::move(int dx, int dy)
       prevDirection = direction;
       frame = 0;
    }
+}
+
+void Entity::addSprite(sf::Sprite sprite, int f, Direction dir)
+{
+   sprites[std::pair<int, Direction>(f, dir)] = sprite;
+   if(f > maxFrame)
+   {
+      maxFrame = f;
+   }
+}
+
+void Entity::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
+   sf::Sprite curSprite = sprites.at(std::pair<int, Direction>(frame, direction));
+   curSprite.setPosition(x, y);
+   target.draw(curSprite, states);
 }
