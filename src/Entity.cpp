@@ -2,10 +2,10 @@
 
 Entity::Entity()
 {
-   create(0, 0);
+   create(0.0, 0.0);
 }
 
-Entity::Entity(int xPos, int yPos)
+Entity::Entity(float xPos, float yPos)
 {
    create(xPos, yPos);
 }
@@ -14,24 +14,26 @@ Entity::~Entity()
 {
 }
 
-void Entity::create(int xPos, int yPos)
+void Entity::create(float xPos, float yPos)
 {
-   x = xPos;
-   y = yPos;
+   position.x = xPos;
+   position.y = yPos;
+   tilePosition.x = position.x / 32.0;
+   tilePosition.y = position.y / 32.0;
    frame = 0;
    maxFrame = 0;
    direction = Direction::UP;
    prevDirection = direction;
 }
 
-int Entity::getX() const
+float Entity::getX() const
 {
-   return x;
+   return position.x;
 }
 
-int Entity::getY() const
+float Entity::getY() const
 {
-   return y;
+   return position.y;
 }
 
 int Entity::getWidth() const
@@ -44,43 +46,104 @@ int Entity::getHeight() const
    return sprites.at(std::pair<int, Direction>(frame, direction)).getLocalBounds().height;
 }
 
-void Entity::move(int dx, int dy)
+void Entity::moveUp()
 {
-   x += dx;
-   y += dy;
-
-   // Determine which frame to use
-   if(frame < maxFrame)
+   if(positionMatchesTilePosition())
    {
-      frame++;
-   }
-   else
-   {
-      frame = 0;
-   }
-
-   // Determine which direction to use
-   if(dx > 0)
-   {
-      direction = Direction::RIGHT;
-   }
-   else if(dx < 0)
-   {
-      direction = Direction::LEFT;
-   }
-   else if(dy > 0)
-   {
-      direction = Direction::DOWN;
-   }
-   else if(dy < 0)
-   {
+      tilePosition.y--;
+      prevDirection = direction;
       direction = Direction::UP;
    }
+}
 
-   if(prevDirection != direction)
+void Entity::moveDown()
+{
+   if(positionMatchesTilePosition())
    {
+      tilePosition.y++;
       prevDirection = direction;
-      frame = 0;
+      direction = Direction::DOWN;
+   }
+}
+
+void Entity::moveLeft()
+{
+   if(positionMatchesTilePosition())
+   {
+      tilePosition.x--;
+      prevDirection = direction;
+      direction = Direction::LEFT;
+   }
+}
+
+void Entity::moveRight()
+{
+   if(positionMatchesTilePosition())
+   {
+      tilePosition.x++;
+      prevDirection = direction;
+      direction = Direction::RIGHT;
+   }
+}
+
+void Entity::tick(sf::Time delta)
+{
+   // Continue moving towards the tile position, if needed
+   if(!positionMatchesTilePosition())
+   {
+      // TODO: Float rounding issues?
+      float deltaPos = delta.asSeconds() * 120.0;
+      float needToMove = 0.0;
+      if(position.x < tilePosition.x * 32.0)
+      {
+         if(position.x + deltaPos > tilePosition.x * 32.0)
+         {
+            needToMove = tilePosition.x * 32.0 - position.x;
+         }
+         else
+         {
+            needToMove = deltaPos;
+         }
+         position.x += needToMove;
+      }
+      else if(position.x > tilePosition.x * 32)
+      {
+         if(position.x - deltaPos < tilePosition.x * 32.0)
+         {
+            needToMove = position.x - tilePosition.x * 32.0;
+         }
+         else
+         {
+            needToMove = deltaPos;
+         }
+         position.x -= needToMove;
+      }
+      else if(position.y < tilePosition.y * 32)
+      {
+         if(position.y + deltaPos > tilePosition.y * 32.0)
+         {
+            needToMove = tilePosition.y * 32.0 - position.y;
+         }
+         else
+         {
+            needToMove = deltaPos;
+         }
+         position.y += needToMove;
+      }
+      else if(position.y > tilePosition.y * 32)
+      {
+         if(position.y - deltaPos < tilePosition.y * 32.0)
+         {
+            needToMove = position.y - tilePosition.y * 32.0;
+         }
+         else
+         {
+            needToMove = deltaPos;
+         }
+         position.y -= needToMove;
+      }
+
+      updateFrame(needToMove);
    }
 }
 
@@ -93,9 +156,32 @@ void Entity::addSprite(sf::Sprite sprite, int f, Direction dir)
    }
 }
 
+bool Entity::positionMatchesTilePosition() const
+{
+   return (position.x == tilePosition.x * 32) && 
+      (position.y == tilePosition.y * 32);
+}
+
+void Entity::updateFrame(float moved)
+{
+   moveSinceLastFrame += moved;
+   if(moveSinceLastFrame >= 4.0)
+   {
+      moveSinceLastFrame -= 4.0;
+      if(frame < maxFrame)
+      {
+         frame++;
+      }
+      else
+      {
+         frame = 0;
+      }
+   }
+}
+
 void Entity::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
    sf::Sprite curSprite = sprites.at(std::pair<int, Direction>(frame, direction));
-   curSprite.setPosition(x, y);
+   curSprite.setPosition(position.x, position.y);
    target.draw(curSprite, states);
 }

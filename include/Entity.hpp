@@ -11,24 +11,31 @@ class Entity : public sf::Drawable
 public:
    enum Direction {UP, DOWN, LEFT, RIGHT};
    Entity();
-   Entity(int xPos, int yPos);
+   Entity(float xPos, float yPos);
    ~Entity();
-   void create(int xPos, int yPos);
-   int getX() const;
-   int getY() const;
+   void create(float xPos, float yPos);
+   float getX() const;
+   float getY() const;
    int getWidth() const;
    int getHeight() const;
-   void move(int dx, int dy);
+   void moveUp();
+   void moveDown();
+   void moveLeft();
+   void moveRight();
+   void tick(sf::Time delta);
    void addSprite(sf::Sprite sprite, int f, Direction dir);
 private:
+   bool positionMatchesTilePosition() const;
+   void updateFrame(float moved);
    virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
-   int x;
-   int y;
+   sf::Vector2f position;        // The entity position overall
+   sf::Vector2i tilePosition;    // The entity position, in the grid of tiles
    int frame;
    int maxFrame;
    Direction direction;
    Direction prevDirection;
    std::map<std::pair<int, Direction>, sf::Sprite> sprites;    // Frame, direction
+   float moveSinceLastFrame;
 };
 
 #endif

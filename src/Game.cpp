@@ -49,40 +49,32 @@ void Game::run()
       2, Entity::Direction::RIGHT);
 
    gui.addDrawable(ent);
-   clock_t start = clock();
-   clock_t end = start;
-   clock_t delta = end - start;
+   sf::Clock clock;
    while(gui.isWindowOpen())
    {
       // Some test logic
-      delta = end - start;
-      if((((float)delta) / CLOCKS_PER_SEC) >= 0.1)
+      ent->tick(clock.restart());
+      int action = rand() % 4;
+      if(action != 4)
       {
-         start = clock();
-         int action = rand() % 5;
-         if(action != 4)
+         Entity::Direction dir = (Entity::Direction)action;
+         switch(dir)
          {
-            Entity::Direction dir = (Entity::Direction)action;
-            switch(dir)
-            {
-               case Entity::Direction::UP:
-                  ent->move(0, -4);
-                  break;
-               case Entity::Direction::DOWN:
-                  ent->move(0, 4);
-                  break;
-               case Entity::Direction::LEFT:
-                  ent->move(-4, 0);
-                  break;
-               case Entity::Direction::RIGHT:
-                  ent->move(4, 0);
-                  break;
-            }
+            case Entity::Direction::UP:
+               ent->moveUp();
+               break;
+            case Entity::Direction::DOWN:
+               ent->moveDown();
+               break;
+            case Entity::Direction::LEFT:
+               ent->moveLeft();
+               break;
+            case Entity::Direction::RIGHT:
+               ent->moveRight();
+               break;
          }
       }
 
       gui.draw();
-
-      end = clock();
    }
 }
