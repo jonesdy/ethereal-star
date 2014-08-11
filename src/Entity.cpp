@@ -2,24 +2,24 @@
 
 Entity::Entity()
 {
-   create(0.0, 0.0);
+   create(0, 0);
 }
 
-Entity::Entity(float xPos, float yPos)
+Entity::Entity(int tx, int ty)
 {
-   create(xPos, yPos);
+   create(tx, ty);
 }
 
 Entity::~Entity()
 {
 }
 
-void Entity::create(float xPos, float yPos)
+void Entity::create(int tx, int ty)
 {
-   position.x = xPos;
-   position.y = yPos;
-   tilePosition.x = position.x / 32.0;
-   tilePosition.y = position.y / 32.0;
+   tilePosition.x = tx;
+   tilePosition.y = ty;
+   position.x = tilePosition.x * 32.0;
+   position.y = tilePosition.y * 32.0;
    frame = 0;
    maxFrame = 0;
    direction = Direction::UP;

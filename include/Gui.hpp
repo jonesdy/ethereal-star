@@ -20,10 +20,12 @@ public:
    void draw();
    void addDrawable(std::shared_ptr<sf::Drawable> drawable);
    void removeDrawable(std::shared_ptr<sf::Drawable> drawable);
+   std::shared_ptr<sf::Event> getLatestEvent();
 private:
    sf::RenderWindow window;
    bool initialized;
    std::vector<std::shared_ptr<sf::Drawable> > drawables;
+   std::shared_ptr<sf::Event> lastEvent;
 };
 
 #endif

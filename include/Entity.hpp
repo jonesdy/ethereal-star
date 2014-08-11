@@ -11,9 +11,9 @@ class Entity : public sf::Drawable
 public:
    enum Direction {UP, DOWN, LEFT, RIGHT};
    Entity();
-   Entity(float xPos, float yPos);
-   ~Entity();
-   void create(float xPos, float yPos);
+   Entity(int tx, int ty);
+   virtual ~Entity();
+   void create(int tx, int ty);
    float getX() const;
    float getY() const;
    int getWidth() const;
