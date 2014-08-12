@@ -38,12 +38,12 @@ float Entity::getY() const
 
 int Entity::getWidth() const
 {
-   return sprites.at(std::pair<int, Direction>(frame, direction)).getLocalBounds().width;
+   return sprites.at(std::pair<int, Direction>(frame, direction))->getLocalBounds().width;
 }
 
 int Entity::getHeight() const
 {
-   return sprites.at(std::pair<int, Direction>(frame, direction)).getLocalBounds().height;
+   return sprites.at(std::pair<int, Direction>(frame, direction))->getLocalBounds().height;
 }
 
 void Entity::moveUp()
@@ -147,7 +147,7 @@ void Entity::tick(sf::Time delta)
    }
 }
 
-void Entity::addSprite(sf::Sprite sprite, int f, Direction dir)
+void Entity::addSprite(std::shared_ptr<sf::Sprite> sprite, int f, Direction dir)
 {
    sprites[std::pair<int, Direction>(f, dir)] = sprite;
    if(f > maxFrame)
@@ -181,7 +181,8 @@ void Entity::updateFrame(float moved)
 
 void Entity::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-   sf::Sprite curSprite = sprites.at(std::pair<int, Direction>(frame, direction));
-   curSprite.setPosition(position.x, position.y);
-   target.draw(curSprite, states);
+   std::shared_ptr<sf::Sprite> curSprite =
+      sprites.at(std::pair<int, Direction>(frame, direction));
+   curSprite->setPosition(position.x, position.y);
+   target.draw(*curSprite, states);
 }

@@ -5,6 +5,7 @@
 #include <map>
 #include <utility>
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 class Entity : public sf::Drawable
 {
@@ -23,7 +24,7 @@ public:
    void moveLeft();
    void moveRight();
    void tick(sf::Time delta);
-   void addSprite(sf::Sprite sprite, int f, Direction dir);
+   void addSprite(std::shared_ptr<sf::Sprite> sprite, int f, Direction dir);
 private:
    bool positionMatchesTilePosition() const;
    void updateFrame(float moved);
@@ -34,7 +35,7 @@ private:
    int maxFrame;
    Direction direction;
    Direction prevDirection;
-   std::map<std::pair<int, Direction>, sf::Sprite> sprites;    // Frame, direction
+   std::map<std::pair<int, Direction>, std::shared_ptr<sf::Sprite>> sprites;    // Frame, direction
    float moveSinceLastFrame;
 };
 

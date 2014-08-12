@@ -1,7 +1,7 @@
 #include "Game.hpp"
 #include "TextureManager.hpp"
-#include <ctime>
 #include "Player.hpp"
+#include "Map.hpp"
 
 Game::Game()
 {
@@ -20,35 +20,30 @@ bool Game::isInitialized() const
 void Game::run()
 {
    std::shared_ptr<Player> player(new Player(5, 5));
+   std::shared_ptr<Map> map(new Map());
    TextureManager textureManager;
-   player->addSprite(sf::Sprite(*textureManager.getTexture("../resources/Sprites.png", 0, 0, 32, 32)),
-      0, Entity::Direction::UP);
-   player->addSprite(sf::Sprite(*textureManager.getTexture("../resources/Sprites.png", 32, 0, 32, 32)),
-      1, Entity::Direction::UP);
-   player->addSprite(sf::Sprite(*textureManager.getTexture("../resources/Sprites.png", 64, 0, 32, 32)),
-      2, Entity::Direction::UP);
+   for(unsigned int i = 0; i < 4; i++)
+   {
+      for(unsigned int j = 0; j < 3; j++)
+      {
+         player->addSprite(std::shared_ptr<sf::Sprite>(new sf::Sprite(
+            *textureManager.getTexture("../resources/Sprites.png",
+             (i * 3 * 32) + (j * 32), 0, 32, 32))), j, Entity::Direction(i));
+      }
+   }
 
-   player->addSprite(sf::Sprite(*textureManager.getTexture("../resources/Sprites.png", 96, 0, 32, 32)),
-      0, Entity::Direction::DOWN);
-   player->addSprite(sf::Sprite(*textureManager.getTexture("../resources/Sprites.png", 128, 0, 32, 32)),
-      1, Entity::Direction::DOWN);
-   player->addSprite(sf::Sprite(*textureManager.getTexture("../resources/Sprites.png", 160, 0, 32, 32)),
-      2, Entity::Direction::DOWN);
+   for(unsigned int i = 0; i < 20; i++)
+   {
+      for(unsigned int j = 0; j < 25; j++)
+      {
+         map->addTile(std::shared_ptr<Tile>(new Tile(j * 32, i * 32,
+            std::shared_ptr<sf::Sprite>(new sf::Sprite(
+            *textureManager.getTexture("../resources/tiles0.png",
+            32, 0, 32, 32))), Tile::Property::NONE)));
+      }
+   }
 
-   player->addSprite(sf::Sprite(*textureManager.getTexture("../resources/Sprites.png", 192, 0, 32, 32)),
-      0, Entity::Direction::LEFT);
-   player->addSprite(sf::Sprite(*textureManager.getTexture("../resources/Sprites.png", 224, 0, 32, 32)),
-      1, Entity::Direction::LEFT);
-   player->addSprite(sf::Sprite(*textureManager.getTexture("../resources/Sprites.png", 256, 0, 32, 32)),
-      2, Entity::Direction::LEFT);
-
-   player->addSprite(sf::Sprite(*textureManager.getTexture("../resources/Sprites.png", 288, 0, 32, 32)),
-      0, Entity::Direction::RIGHT);
-   player->addSprite(sf::Sprite(*textureManager.getTexture("../resources/Sprites.png", 320, 0, 32, 32)),
-      1, Entity::Direction::RIGHT);
-   player->addSprite(sf::Sprite(*textureManager.getTexture("../resources/Sprites.png", 352, 0, 32, 32)),
-      2, Entity::Direction::RIGHT);
-
+   gui.addDrawable(map);
    gui.addDrawable(player);
    sf::Clock clock;
    while(gui.isWindowOpen())
@@ -56,26 +51,6 @@ void Game::run()
       // Some test logic
       player->tick(clock.restart());
       player->handleEvent(gui.getLatestEvent());
-      /*int action = rand() % 4;
-      if(action != 4)
-      {
-         Entity::Direction dir = (Entity::Direction)action;
-         switch(dir)
-         {
-            case Entity::Direction::UP:
-               player->moveUp();
-               break;
-            case Entity::Direction::DOWN:
-               player->moveDown();
-               break;
-            case Entity::Direction::LEFT:
-               player->moveLeft();
-               break;
-            case Entity::Direction::RIGHT:
-               player->moveRight();
-               break;
-         }
-      }*/
 
       gui.draw();
    }

@@ -4,7 +4,7 @@ Tile::Tile()
 {
 }
 
-Tile::Tile(int xPos, int yPos, sf::Sprite sp, Property p)
+Tile::Tile(int xPos, int yPos, std::shared_ptr<sf::Sprite> sp, Property p)
 {
    create(xPos, yPos, sp, p);
 }
@@ -13,7 +13,7 @@ Tile::~Tile()
 {
 }
 
-void Tile::create(int xPos, int yPos, sf::Sprite sp, Property p)
+void Tile::create(int xPos, int yPos, std::shared_ptr<sf::Sprite> sp, Property p)
 {
    x = xPos;
    y = yPos;
@@ -38,5 +38,6 @@ Tile::Property Tile::getProperty() const
 
 void Tile::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-   target.draw(sprite, states);
+   sprite->setPosition(x, y);
+   target.draw(*sprite, states);
 }
