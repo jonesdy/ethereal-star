@@ -4,31 +4,31 @@ Tile::Tile()
 {
 }
 
-Tile::Tile(int xPos, int yPos, std::shared_ptr<sf::Sprite> sp, Property p)
+Tile::Tile(int tx, int ty, std::shared_ptr<sf::Sprite> sp, Property p)
 {
-   create(xPos, yPos, sp, p);
+   create(tx, ty, sp, p);
 }
 
 Tile::~Tile()
 {
 }
 
-void Tile::create(int xPos, int yPos, std::shared_ptr<sf::Sprite> sp, Property p)
+void Tile::create(int tx, int ty, std::shared_ptr<sf::Sprite> sp, Property p)
 {
-   x = xPos;
-   y = yPos;
+   tilePosition.x = tx;
+   tilePosition.y = ty;
    sprite = sp;
    property = p;
 }
 
-int Tile::getX() const
+int Tile::getTX() const
 {
-   return x;
+   return tilePosition.x;
 }
 
-int Tile::getY() const
+int Tile::getTY() const
 {
-   return y;
+   return tilePosition.y;
 }
 
 Tile::Property Tile::getProperty() const
@@ -38,6 +38,7 @@ Tile::Property Tile::getProperty() const
 
 void Tile::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-   sprite->setPosition(x, y);
+   sprite->setPosition(tilePosition.x * sprite->getLocalBounds().width,
+      tilePosition.y * sprite->getLocalBounds().height);
    target.draw(*sprite, states);
 }

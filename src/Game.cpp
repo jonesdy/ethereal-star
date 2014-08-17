@@ -35,7 +35,7 @@ void Game::run()
    {
       for(unsigned int j = 0; j < 25; j++)
       {
-         map->addTile(std::shared_ptr<Tile>(new Tile(j * 32, i * 32,
+         map->addTile(std::shared_ptr<Tile>(new Tile(j, i,
             std::shared_ptr<sf::Sprite>(new sf::Sprite(
             *TextureManager::getTexture("../resources/tiles0.png",
             32, 0, 32, 32))), Tile::Property::NONE)));
