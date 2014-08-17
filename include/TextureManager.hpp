@@ -10,13 +10,13 @@
 class TextureManager
 {
 public:
+   static std::shared_ptr<sf::Texture> getTexture(std::string fileName, int x, int y, int width, int height);
+private:
    TextureManager();
    ~TextureManager();
-   std::shared_ptr<sf::Texture> getTexture(std::string fileName, int x, int y, int width, int height);
-private:
-   std::map<std::string, std::unique_ptr<sf::Image> > images;
-   std::map<std::string, std::vector<sf::IntRect> > textureCuts;
-   std::map<std::string, std::vector<std::shared_ptr<sf::Texture> > > textures;
+   static std::map<std::string, std::unique_ptr<sf::Image> > images;
+   static std::map<std::string, std::vector<sf::IntRect> > textureCuts;
+   static std::map<std::string, std::vector<std::shared_ptr<sf::Texture> > > textures;
 };
 
 #endif

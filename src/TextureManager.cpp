@@ -1,5 +1,9 @@
 #include "TextureManager.hpp"
 
+std::map<std::string, std::unique_ptr<sf::Image> > TextureManager::images;
+std::map<std::string, std::vector<sf::IntRect> > TextureManager::textureCuts;
+std::map<std::string, std::vector<std::shared_ptr<sf::Texture> > > TextureManager::textures;
+
 TextureManager::TextureManager()
 {
 }
