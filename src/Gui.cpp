@@ -8,6 +8,7 @@ Gui::Gui()
 {
    initialized = true;
    window.create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE);
+   window.setFramerateLimit(60);
 }
 
 Gui::~Gui()
