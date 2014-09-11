@@ -2,6 +2,7 @@ ethereal-star
 =============
 
 [![Build Status](https://travis-ci.org/jonesdy/ethereal-star.svg?branch=master)](https://travis-ci.org/jonesdy/ethereal-star)
+[![Stories in Ready](https://badge.waffle.io/jonesdy/ethereal-star.png?label=ready&title=Ready)](https://waffle.io/jonesdy/ethereal-star)
 
 The client for the Ethereal RPG Engine
 
