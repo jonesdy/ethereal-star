@@ -24,6 +24,7 @@ void Entity::create(int tx, int ty)
    maxFrame = 0;
    direction = Direction::UP;
    prevDirection = direction;
+   moveSinceLastFrame = 0.0;
 }
 
 float Entity::getX() const

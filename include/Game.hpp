@@ -10,6 +10,7 @@ public:
    Game();
    ~Game();
    bool isInitialized() const;
+   bool isJoined() const;
    void run();
 private:
    bool initialized;

@@ -19,6 +19,7 @@ bool Game::isInitialized() const
 
 void Game::run()
 {
+   // TODO: This is just test stuff, needs to be moved to proper location
    std::shared_ptr<Player> player(new Player(5, 5));
    std::shared_ptr<Map> map(new Map());
    for(unsigned int i = 0; i < 4; i++)
@@ -47,9 +48,13 @@ void Game::run()
    sf::Clock clock;
    while(gui.isWindowOpen())
    {
-      // Some test logic
-      player->tick(clock.restart());
-      player->handleEvent(gui.getLatestEvent());
+      sf::Time delta = clock.restart();
+      if(!gui.isInMenu())
+      {
+         // Some test logic
+         player->tick(delta);
+         player->handleEvent(gui.getLatestEvent());
+      }
 
       gui.draw();
    }
